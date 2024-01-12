@@ -1,5 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { createClient } from "@supabase/supabase-js";
+try{
+	const supabaseUrl = "https://tvfskypksxpqwurntbuc.supabase.co";
+	const supabaseKey = import.meta.env.PUBLIC_KEY;
+	const supabase = createClient(supabaseUrl, supabaseKey);
+	const {data,error} = await supabase.auth.getUser();
+	console.log(data,error);
+	if(!error){
+		location.pathname = "/main"
+	}
+}
 // import Card from '../components/Card.astro';
 ---
 

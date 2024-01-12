@@ -23,22 +23,18 @@
   const supabaseKey = import.meta.env.PUBLIC_KEY;
   const supabase = createClient(supabaseUrl, supabaseKey);
   export default {
-    data() {
-          return {
-              user: {}
-          }
-      },
       async mounted(){
-          const data = await supabase.auth.getUser();
-          console.log(data)
-          this.user = JSON.stringify(data)
+          const {data,error} = await supabase.auth.getUser();
+          if(!error){
+	location.pathname = "/main"
+}
       },
       methods:{
           async sign(event){
               let email = document.querySelector("#email").value
               let pass = document.querySelector("#password").value;
               event.preventDefault();
-  
+     
               let { data, error } = await supabase.auth.signInWithPassword({
             email:email,
             password: pass  // password
@@ -68,20 +64,6 @@
        form{
           width: 50vw;
           height: 50vh;
-          /* display: flex;
-          justify-content: center;
-          align-items: flex-start;
-          flex-direction: column; */
       } 
-      /* form label{
-          font-size: 20px;
-      }
-      form input{
-          color: black;
-          padding: 5px;
-      }
-      form div{
-          margin-top: 10px;
-      } */
   </style>
   

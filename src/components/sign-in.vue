@@ -48,23 +48,29 @@ let { data, error } = await supabase.auth.signUp({
 
 
 console.log(email,password,data,error)
-    if (error) {
-        document.querySelector(".danger").style.display = "block";
-        document.querySelector(".danger").innerHTML = error.message;
-        return 0
-    }
-    {
-    let { data, error } = await supabase.auth.signInWithPassword({
-  email,
-  password
-})
 if (error) {
-        document.querySelector(".danger").style.display = "block";
-        document.querySelector(".danger").innerHTML = error.message;
-        return 0
-    }
-    }
-    document.querySelector(".danger").style.display = "none";
+  document.querySelector(".danger").style.display = "block";
+  document.querySelector(".danger").innerHTML = error.message;
+  return 0
+}
+{
+  let { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password
+  })
+  const notes_list = await supabase
+    .from('note_list')
+    .insert([
+      { account: data.user.id ,notes: []},
+    ])
+    .select()
+  if (error) {
+    document.querySelector(".danger").style.display = "block";
+    document.querySelector(".danger").innerHTML = error.message;
+    return 0
+  }
+}
+document.querySelector(".danger").style.display = "none";
     location.pathname = "/main"
     }
     },
