@@ -119,20 +119,20 @@ export default {
     let { data, error } = await supabase
       .from("note_list")
       .select("*")
-      .eq("account", this.user.id);
-      if (data) {
+      .eq("account", datas.data.user.id);
+    if (data) {
         this.notes = JSON.parse(data[0].notes);
-      }
-      if(error){
+    }
+    if(error){
         alert(JSON.stringify(error))
-      }
+    }
   },
   methods: {
     async share(){
       try {
         let that = this
         console.log("Sharing note")
-        navigator.clipboard.writeText(import.meta.env.PUBLIC_VERCEL_URL || "http://localhost:4321"+`/read/${this.currnote.uid}`)
+        navigator.clipboard.writeText((location.host || "http://localhost:4321")+`/read/`+this.currnote.uid)
       } catch (err) {
         alert("error while sharing note" + JSON.stringify(err))
       }
