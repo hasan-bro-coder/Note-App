@@ -18,9 +18,9 @@
         
     </nav>
     <main v-show="selected">
-      <div class="top-nav">
+      <div class="top-nav" >
         <h1 class="header" contenteditable="true" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" ref="header">Bro Notes</h1>
-        <div>
+        <div class="flex" style="gap:10px">
           <button @click="md=!md;input()" class="good">markdown</button>
           <button @click="share" class="blue">share</button>  
           <button @click="delet" class="danger">delete</button>
@@ -41,7 +41,11 @@
     <main v-show="!selected" style="flex-direction: column">
       <div class="top-nav">
         <h1 class="logo">Bro Notes</h1>
-        <button @click="$refs.dialog.showModal()">New Project</button>
+        <div class="flex" style="gap:10px">
+          <button @click="$refs.dialog.showModal()" class="blue">New Project</button>  
+          <!-- <div></div> -->
+          <button @click="logout()" class="danger">logout</button>
+        </div>
       </div>
       <dialog ref="dialog">
         <div class="dialog">
@@ -61,10 +65,6 @@
                 required
               />
             </div>
-            <!-- <div class="mb-5">
-        <label for="password" class="block mb-2 text-3xl font-medium text-gray-900 dark:text-white">Your password:</label>
-        <input type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-    </div> -->
             <button
               type="submit"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-4 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -74,12 +74,15 @@
           </form>
         </div>
       </dialog>
+
       <div class="note-con">
-          
           <div class="note-section" >
-            <div class="noter" @click="load(note)" v-for="note in notes.slice(0, 6)">
+            <div class="noter" v-if="notes.length > 0" @click="load(note)" v-for="note in notes.slice(0, 6)">
                 <h3>{{ note.name }}</h3>
                 <h5 style="color:gray;font-weight:300">{{ note?.date }}</h5>
+            </div>
+            <div v-else>
+                <h1 class="text-center " style="color: gray">no projects found (￣﹃￣)</h1>
             </div>
         </div>
     </div>
@@ -88,10 +91,8 @@
 </template>
 <script>
 import { createClient } from "@supabase/supabase-js";
-// import { marked } from "marked"
 import markdownit from "markdown-it";
 const marked = markdownit({
-  // highlight: (str)=>{console.log(str;},
   linkify: true,
 });
 const supabaseUrl = "https://tvfskypksxpqwurntbuc.supabase.co";
@@ -111,18 +112,31 @@ export default {
   async mounted() {
     const datas = await supabase.auth.getUser();
     if (datas.error) {
+      alert("login")
       location.pathname = "/"
-      // alert("login")
     }
     this.user = datas.data.user;
     let { data, error } = await supabase
       .from("note_list")
       .select("*")
       .eq("account", this.user.id);
-    this.notes = JSON.parse(data[0].notes);
-    // this.notes = data[0].notes;
+      if (data) {
+        this.notes = JSON.parse(data[0].notes);
+      }
+      if(error){
+        alert(JSON.stringify(error))
+      }
   },
   methods: {
+    async share(){
+      try {
+        let that = this
+        console.log("Sharing note")
+        navigator.clipboard.writeText(import.meta.env.PUBLIC_VERCEL_URL || "http://localhost:4321"+`/read/${this.currnote.uid}`)
+      } catch (err) {
+        alert("error while sharing note" + JSON.stringify(err))
+      }
+    },
     async delet() {
       try {
 
@@ -148,6 +162,12 @@ export default {
         }
       } catch (err) {
         alert("error while delleting note" + JSON.stringify(err))
+      }
+    },
+    async logout(){
+      let {data,error} = await supabase.auth.signOut()
+      if (!error) {
+        location.pathname = '/'
       }
     },
     async save(verbose) {
@@ -213,10 +233,13 @@ export default {
             name: document.querySelector("#email").value,
             uid: uid,
             account: that.user.id,
+            username: this.user.user_metadata.user_name || "unknown",
           },
         ])
         .select();
-
+      if (notes.error) {
+        alert(error)
+      }
       const notes_list = await supabase
         .from("note_list")
         .update({ notes: that.notes })
@@ -359,6 +382,7 @@ dialog {
         padding: 3px;
         background-color: transparent;
       }
+      
     }
   }
 

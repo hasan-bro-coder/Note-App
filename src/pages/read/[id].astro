@@ -1,0 +1,35 @@
+---
+import Layout from '../../layouts/Layout.astro';
+// import Reader from '../../components/read.vue'
+
+const { id } = Astro.params;
+import { createClient } from "@supabase/supabase-js";
+import markdownit from "markdown-it";
+const marked = markdownit({
+  linkify: true,
+});
+const supabaseUrl = "https://tvfskypksxpqwurntbuc.supabase.co";
+const supabaseKey = import.meta.env.PUBLIC_KEY;
+const supabase = createClient(supabaseUrl, supabaseKey);
+const { data, error } = await supabase
+         .from("notes")
+         .select("*")
+         .eq("uid", id);
+---
+<Layout title="Bro Notes" >
+    <div class="md-con">
+        <div set:html={marked.render(data[0].data)}>
+            
+        </div>
+    </div>
+    
+</Layout>
+
+<style>
+    .md-con{
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>

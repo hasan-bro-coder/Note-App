@@ -1,10 +1,14 @@
 <template lang="">
   <div class="body">
-    {{user}}
+    <!-- {{user}} -->
     <div class=" hidden p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400 danger" role="alert">
   <span class="font-medium">Danger alert!</span> password must be over 6 characters
 </div>
-    <form class="max-w-sm mx-auto" @submit.prevent='sign($event)'>
+<form class="max-w-sm mx-auto" @submit.prevent='sign($event)'>
+  <div class="mb-5">
+    <label for="name" class="block mb-2 text-3xl font-medium text-gray-900 dark:text-white">Your name:</label>
+    <input type="name" id="name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+  </div>
   <div class="mb-5">
     <label for="email" class=" text-3xl block mb-2 font-medium text-gray-900 dark:text-white">Your email:</label>
     <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required>
@@ -42,34 +46,46 @@ export default {
                 return 0
             }
 let { data, error } = await supabase.auth.signUp({
-  email,
-  password
+  email: email,
+  password: password,
+  options: {
+    data: {
+      user_name: document.querySelector("#name").value,
+    },
+  },
 })
 
-
+const notes_list = await supabase
+.from('note_list')
+.insert([
+  { account: data?.user.id ,notes: [],username: document.querySelector("#name").value},
+])
+  .select()
+  
 console.log(email,password,data,error)
 if (error) {
   document.querySelector(".danger").style.display = "block";
   document.querySelector(".danger").innerHTML = error.message;
   return 0
 }
-{
-  let { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password
-  })
-  const notes_list = await supabase
-    .from('note_list')
-    .insert([
-      { account: data.user.id ,notes: []},
-    ])
-    .select()
-  if (error) {
-    document.querySelector(".danger").style.display = "block";
-    document.querySelector(".danger").innerHTML = error.message;
-    return 0
-  }
+else if(notes_list.error){
+  document.querySelector(".danger").style.display = "block";
+  document.querySelector(".danger").innerHTML = error.message;
+  return 0
 }
+// {
+//   // let { data, error } = await supabase.auth.signInWithPassword({
+//   //   email: email,
+//   //   password: password,
+ 
+//   // })
+//   console.log(data,error)
+//   if (error) {
+//     document.querySelector(".danger").style.display = "block";
+//     document.querySelector(".danger").innerHTML = error.message;
+//     return 0
+//   }
+// }
 document.querySelector(".danger").style.display = "none";
     location.pathname = "/main"
     }
