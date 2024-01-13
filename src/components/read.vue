@@ -19,7 +19,6 @@ export default {
         }
     },
     async mounted(){
-        console.log(this.id)
     const { data, error } = await supabase
          .from("notes")
          .select("*")

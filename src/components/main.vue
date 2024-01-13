@@ -131,7 +131,6 @@ export default {
     async share(){
       try {
         let that = this
-        console.log("Sharing note")
         navigator.clipboard.writeText((location.host || "http://localhost:4321")+`/read/`+this.currnote.uid)
       } catch (err) {
         alert("error while sharing note" + JSON.stringify(err))
@@ -141,7 +140,6 @@ export default {
       try {
 
         let that = this
-        console.log("Deleting notes")
         const { error } = await supabase
           .from('notes')
           .delete()
@@ -180,7 +178,6 @@ export default {
           .eq('account', this.user.id)
           .eq("uid", this.currnote.uid)
           .select()
-        console.log(data)
         if (verbose) {
           let newNote = this.notes.map(function (note) {
             if (note.uid == that.currnote.uid) {
@@ -188,7 +185,6 @@ export default {
             }
             return note;
           });
-          console.log(newNote)
           const notes_list = await supabase
             .from("note_list")
             .update({ notes: newNote })
@@ -202,7 +198,6 @@ export default {
 
     async load(note) {
       this.selected = true;
-      // console.log(this.$refs)
       this.$refs.header.innerText = note.name
       this.currnote = note
 
@@ -210,8 +205,6 @@ export default {
         .from('notes')
         .select('*')
         .eq("uid", note.uid)
-      // .eq("account", this.user.id)
-      console.log(data[0].data, note)
       this.$refs.input.value = data[0].data || " "
       this.input()
     },
@@ -245,9 +238,6 @@ export default {
         .update({ notes: that.notes })
         .eq("account", that.user.id)
         .select();
-
-
-      console.log(notes_list, notes);
     },
     input() {
       this.save()

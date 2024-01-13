@@ -39,7 +39,6 @@
             email:email,
             password: pass  // password
             })
-  console.log(email,password,data,error)
       if (error) {
           document.querySelector(".danger").style.display = "block";
           document.querySelector(".danger").innerHTML = error.message;

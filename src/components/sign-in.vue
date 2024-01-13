@@ -27,16 +27,6 @@ const supabaseUrl = "https://tvfskypksxpqwurntbuc.supabase.co";
 const supabaseKey = import.meta.env.PUBLIC_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 export default {
-  data() {
-        return {
-            user: {}
-        }
-    },
-    async mounted(){
-        const data = await supabase.auth.getUser();
-        console.log(data)
-        this.user = JSON.stringify(data)
-    },
     methods:{
         async sign(event){
             let email = document.querySelector("#email").value,password = document.querySelector("#password").value;
@@ -62,7 +52,6 @@ const notes_list = await supabase
 ])
   .select()
   
-console.log(email,password,data,error)
 if (error) {
   document.querySelector(".danger").style.display = "block";
   document.querySelector(".danger").innerHTML = error.message;

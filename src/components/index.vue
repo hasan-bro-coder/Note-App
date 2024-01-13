@@ -33,13 +33,10 @@ export default {
         }
     },
     async mounted(){
-        // alert("yo");
         try{
 	const {data,error} = await supabase.auth.getUser();
-	console.log(data,error);
 	if(!error){
         this.login = true
-		// location.pathname = "/main"
 	}
 }catch(err){
 }
@@ -47,74 +44,70 @@ export default {
 }
 </script>
 <style lang="scss">
-    nav{
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		height: 60px;
-		padding: 0px 10px;
-		// border-bottom: 1px solid white;
-		.btn-container{
-			display: flex;
-			justify-content: center;
-			align-items: center;
-			// flex-direction: column;
-			gap: 10px;
-		}
-		.gradient-border{
-			background:  linear-gradient(90deg, rgba(0,44,232,1) 0%, rgba(0,212,255,1) 100%);
-			// margin-bottom: -40px;
-			// margin-top: 25px;
-			border-radius: 6px;
-			padding: 1px;
-		}
-		.gradient-border-revers{
-			background:  linear-gradient(90deg, rgba(0,212,255,1) 0%, rgba(0,44,232,1) 100%);
-			// margin-bottom: -40px;
-			// margin-top: 25px;
-			border-radius: 6px;
-			padding: 1px;
-		}
-		.gradient-btn{
-			// height: 35px;
-			// width: 70px;
-			a{
-				color: white;
-				text-decoration: none;
-			}
-			background-color: #13151a;
-			border: none;
-			border-radius: 6px;
-			transition: 400ms;
-			padding: 10px 10px;
-			font-family: system-ui, sans-serif;
-			font-weight: 600;
-			font-size: 13px;
-			// font-family:Verdana, Geneva, Tahoma, sans-serif;
-			// font-weight: 500;
-			&:hover{
-			background-color: transparent;
-			// color: black;
-			}
-		}
-		.navbutton{
-			height: 40px;
-			width: 60px;
-			background-color: transparent;
-			border: 1px solid white;
-			color: white;
-			border-radius: 6px;
-			transition: 400ms;
-			font-family: system-ui, sans-serif;
-			font-weight: 600;
-			// font-family:Verdana, Geneva, Tahoma, sans-serif;
-			// font-weight: 500;
-			&:hover{
-			background-color: white;
-			color: black;
-			}
-		}
-	}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  padding: 0px 10px;
+  .btn-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+  .gradient-border {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 44, 232, 1) 0%,
+      rgba(0, 212, 255, 1) 100%
+    );
+    border-radius: 6px;
+    padding: 1px;
+  }
+  .gradient-border-revers {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 212, 255, 1) 0%,
+      rgba(0, 44, 232, 1) 100%
+    );
+    border-radius: 6px;
+    padding: 1px;
+  }
+  .gradient-btn {
+    a {
+      color: white;
+      text-decoration: none;
+    }
+    background-color: #13151a;
+    border: none;
+    border-radius: 6px;
+    transition: 400ms;
+    padding: 10px 10px;
+    font-family: system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    &:hover {
+      background-color: transparent;
+    }
+  }
+  .navbutton {
+    height: 40px;
+    width: 60px;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    border-radius: 6px;
+    transition: 400ms;
+    font-family: system-ui, sans-serif;
+    font-weight: 600;
+    &:hover {
+      background-color: white;
+      color: black;
+    }
+  }
+}
+
 	main{
 		height: 300px;
 		display: flex;
