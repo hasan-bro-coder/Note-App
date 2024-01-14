@@ -9,6 +9,9 @@
 			<div class="gradient-border-revers">
 				<button class="gradient-btn login"><a href="/login">Login</a></button>
 			</div>
+      <div class="gradient-border-revers">
+				<button class="gradient-btn login"><a href="https://github.com/hasan-bro-coder" target="_blank">github</a></button>
+			</div>
 		</div>
 	</nav>
 	<main>
@@ -36,9 +39,11 @@ export default {
         try{
 	const {data,error} = await supabase.auth.getUser();
 	if(!error){
+  console.log("logedin")
         this.login = true
 	}
 }catch(err){
+  console.log("not logedin")
 }
     }
 }
