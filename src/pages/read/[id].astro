@@ -38,7 +38,10 @@ if (data.length == 0) {
         <div class="data" set:html={marked.render(data[0].data)} />
       </div>
     </main>
-    <style lang="scss">
+   
+  </div>
+</Layout>
+ <style lang="scss">
       .md-con {
         width: 100vw;
         display: flex;
@@ -54,7 +57,7 @@ if (data.length == 0) {
             line-height: calc(22px * 1.618);
           }
           .gradient-border {
-            min-height: calc(90vh - 80px);
+            // min-height: calc(90vh - 80px);
             background: linear-gradient(
               90deg,
               rgba(97, 0, 232, 1) 0%,
@@ -75,6 +78,7 @@ if (data.length == 0) {
             margin-left: 20px;
           }
           .top {
+            background-color: #13151a;
             height: 60px;
             display: flex;
             justify-content: space-between;
@@ -109,6 +113,4 @@ if (data.length == 0) {
           }
         }
       }
-    </style>
-  </div>
-</Layout>
+  </style>
