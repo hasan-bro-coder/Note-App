@@ -54,15 +54,27 @@
             <div class="mb-5">
               <label
                 for="email"
-                class="text-2xl block mb-2 font-medium text-gray-900 dark:text-white"
+                class="text-2xl block mb-2 font-medium text-gray-50 dark:text-white"
                 >Note name:</label
               >
               <input
                 type="text"
                 id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="bg-gray-50 border border-gray-300 text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="name"
                 required
+              />
+            </div>
+            <div class="mb-5">
+              <label
+                for="privet"
+                class="text-2xl block mb-2 font-medium text-gray-50 dark:text-white"
+                >privet:</label
+              >
+              <input
+                type="checkbox"
+                id="privet"
+                class="bg-gray-50 border border-gray-300 text-gray-50 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 "
               />
             </div>
             <button
@@ -216,7 +228,8 @@ export default {
       that.notes.push({
         name: document.querySelector("#email").value,
         uid: uid,
-        date: date.toLocaleDateString()
+        date: date.toLocaleDateString(),
+        privet: document.querySelector("#privet").checked
       });
 
       const notes = await supabase
