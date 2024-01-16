@@ -121,17 +121,17 @@ export default {
       .select("*")
       .eq("account", datas.data.user.id);
     if (data) {
-        this.notes = JSON.parse(data[0].notes);
+      this.notes = JSON.parse(data[0].notes);
     }
-    if(error){
-        alert(JSON.stringify(error))
+    if (error) {
+      alert(JSON.stringify(error))
     }
   },
   methods: {
-    async share(){
+    async share() {
       try {
         let that = this
-        navigator.clipboard.writeText((location.host || "http://localhost:4321")+`/read/`+this.currnote.uid)
+        navigator.clipboard.writeText((location.host || "http://localhost:4321") + `/read/` + this.currnote.uid)
       } catch (err) {
         alert("error while sharing note" + JSON.stringify(err))
       }
@@ -162,8 +162,8 @@ export default {
         alert("error while delleting note" + JSON.stringify(err))
       }
     },
-    async logout(){
-      let {data,error} = await supabase.auth.signOut()
+    async logout() {
+      let { data, error } = await supabase.auth.signOut()
       if (!error) {
         location.pathname = '/'
       }
@@ -372,7 +372,7 @@ dialog {
         padding: 3px;
         background-color: transparent;
       }
-      
+
     }
   }
 
@@ -504,6 +504,39 @@ dialog {
       // display: block;
       height: 100%;
       background-color: transparent;
+
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+
+      hr {
+        margin: 10px 0px;
+      }
+
+      code {
+        display: block;
+        margin: 10px 0px;
+        font-family: Consolas, "courier new";
+        background-color: rgb(34, 34, 34);
+        width: 100%;
+        padding: 8px;
+        font-size: 105%;
+        border: 1px solid white;
+        border-radius: 6px;
+      }
 
       ul {
         list-style-type: disc;
