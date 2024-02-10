@@ -16,7 +16,7 @@
 	</nav>
 	<main>
 		<h1 class="gradient">Bro Notes</h1>
-		<p>found none but ,so made one</p>
+		<p>found none ,so made one</p>
 		<div class="gradient-border">
 			<button class="gradient-btn" ><a :href="login ? '/main' : '/new'" style="text-decoration: none;">{{login ? 'Dashboard' : 'Get Started'}}</a></button>
 		</div>
